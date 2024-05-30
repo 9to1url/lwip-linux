@@ -8,93 +8,51 @@
 
 #define echo_server_dbg(x) (void) 0
 
-static err_t echo_server_accept(void *arg, struct tcp_pcb *pcb, err_t err);
-static err_t echo_server_recv(void *arg, struct tcp_pcb *pcb, struct pbuf *p, err_t err);
+static void echo_server_recv(void *arg, struct udp_pcb *upcb, struct pbuf *p,
+                             const ip_addr_t *addr, u16_t port);
 static void echo_server_err(void *arg, err_t err);
 static err_t echo_server_sent(void *arg, struct tcp_pcb *pcb, u16_t len);
 static int echo_server_send(struct tcp_pcb *pcb, const char *buf, size_t len);
 
-err_t create_echo_server(void)
-{
-  struct tcp_pcb *pcb;
-  err_t err;
-
-  pcb = tcp_new_ip_type(IPADDR_TYPE_ANY);
-  if (pcb == NULL)
-  {
-	  return ERR_MEM;
-  }
-  tcp_setprio(pcb, TCP_SERVER_PRIO);
-  err = tcp_bind(pcb, IP_ANY_TYPE, TCP_LOCAL_SERVER_PORT);
-  LWIP_UNUSED_ARG(err); /* in case of LWIP_NOASSERT */
-  LWIP_ASSERT("echo_server_init: tcp_bind failed", err == ERR_OK);
-
-  pcb = tcp_listen(pcb);
-  LWIP_ASSERT("echo_server_init: tcp_listen failed", pcb != NULL);
-
-  tcp_accept(pcb, echo_server_accept);
-  return ERR_OK;
-}
-
-static err_t echo_server_accept(void *arg, struct tcp_pcb *pcb, err_t err)
-{
-  LWIP_UNUSED_ARG(err);
-  LWIP_UNUSED_ARG(arg);
-  echo_server_dbg(("echo_server_accept %p / %p\n", (void*)pcb, arg));
-
-  if ((err != ERR_OK) || (pcb == NULL)) {
-    return ERR_VAL;
-  }
-
-  /* Set priority */
-  tcp_setprio(pcb, TCP_SERVER_PRIO);
-
-  /* Tell TCP that this is the structure we wish to be passed for our
-     callbacks. */
-  tcp_arg(pcb, NULL);
-
-  /* Set up the various callback functions */
-  tcp_recv(pcb, echo_server_recv);
-  tcp_err(pcb, echo_server_err);
-  tcp_sent(pcb, echo_server_sent);
-  printf("Echo server accepted new connection.\n");
-  return ERR_OK;
-}
-
-static err_t echo_server_recv(void *arg, struct tcp_pcb *pcb, struct pbuf *p, err_t err)
-{
-  char *recv_buf;
-  echo_server_dbg(("echo_server_recv: pcb=%p pbuf=%p err=%s\n", (void*)pcb,
-    (void*)p, lwip_strerr(err)));
-
-  if ((err != ERR_OK) || (p == NULL))
-  {
-    /* error or closed by other side? */
+// Function to handle incoming UDP packets
+static void echo_server_recv(void *arg, struct udp_pcb *upcb, struct pbuf *p,
+                             const ip_addr_t *addr, u16_t port) {
+    printf("echo_server_recv\n");
     if (p != NULL) {
-      /* Inform TCP that we have taken the data. */
-      tcp_recved(pcb, p->tot_len);
-      pbuf_free(p);
+
+        printf("recv UDP: %s \n", p);
+        // Echo the received data back to the sender
+        udp_sendto(upcb, p, addr, port);
+
+        // Free the pbuf
+        pbuf_free(p);
     }
-    printf("Connection closed.\n");
+}
+
+// Function to create and initialize the UDP echo server
+err_t create_echo_server(void) {
+    struct udp_pcb *upcb;
+    err_t err;
+
+    // Create a new UDP PCB
+    upcb = udp_new();
+    if (upcb == NULL) {
+        return ERR_MEM;
+    }
+
+    // Bind the UDP PCB to any IP address and the specified port
+    err = udp_bind(upcb, IP_ADDR_ANY, TCP_LOCAL_SERVER_PORT);
+    if (err != ERR_OK) {
+        udp_remove(upcb);
+        return err;
+    }
+
+    printf("Echo server started at port %d\n", TCP_LOCAL_SERVER_PORT);
+
+    // Set up the receive callback function
+    udp_recv(upcb, echo_server_recv, NULL);
+
     return ERR_OK;
-  }
-
-  /* Inform TCP that we have taken the data. */
-  tcp_recved(pcb, p->tot_len);
-
-  recv_buf = (char *) malloc(p->len + 1);
-  if (recv_buf != NULL)
-  {
-	  memcpy(recv_buf, p->payload, p->len);
-	  recv_buf[p->len] = 0;
-	  printf("%s", recv_buf);
-
-	  echo_server_send(pcb, recv_buf, p->len + 1);
-	  free(recv_buf);
-  }
-
-  pbuf_free(p);
-  return ERR_OK;
 }
 
 static void echo_server_err(void *arg, err_t err)
