@@ -38,3 +38,7 @@ This is a version of lwip running on Ubuntu
    - lwip-linux only supports 32 local server ports from 6677 to 6709. When we create a tcp server, please use the server port in this range.
    - For local client ports, the lwip-linux supports to allocate port in range from 49152 to 49184.  
 	
+## forker notes
+
+  - run the server on Ubuntu vm
+  - telnet the vm IP from the mac host will work, but if telnet from within the Ubuntu machine not working.
