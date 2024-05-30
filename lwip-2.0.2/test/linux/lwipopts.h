@@ -37,7 +37,7 @@
 #define lwip_linux_dbg(x) printf x
 
 #define LWIP_LINUX_PORT_NUM                 32
-#define LWIP_LINUX_SERVER_START_PORT_NUM    6677
+#define LWIP_LINUX_SERVER_START_PORT_NUM    3478
 #define LWIP_LINUX_CLIENT_START_PORT_NUM    0xC000
 
 /* Prevent having to link sys_arch.c (we don't test the API layers in unit tests) */
