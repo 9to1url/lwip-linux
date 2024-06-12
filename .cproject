@@ -23,9 +23,9 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1114887077" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.322517281" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.1795034979" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="../lwip-2.0.2/src/include"/>
-									<listOptionValue builtIn="false" value="../lwip-2.0.2/src"/>
-									<listOptionValue builtIn="false" value="../lwip-2.0.2/test/linux"/>
+									<listOptionValue builtIn="false" value="../lwip-2.1.2/src/include"/>
+									<listOptionValue builtIn="false" value="../lwip-2.1.2/src"/>
+									<listOptionValue builtIn="false" value="../lwip-2.1.2/test/linux"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.904914629" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -52,7 +52,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="lwip-2.0.2/src/netif/slipif.c|lwip-2.0.2/src/netif/ppp|lwip-2.0.2/src/apps/httpd/httpd.c|lwip-2.0.2/src/apps/httpd/fsdata.c|lwip-2.0.2/src/apps/httpd/makefsdata|lwip-2.0.2/src/apps/httpd/fs|lwip-2.0.2/test/unit|lwip-2.0.2/test/fuzz|lwip-2.0.2/doc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="lwip-2.1.2/src/netif/slipif.c|lwip-2.1.2/src/netif/ppp|lwip-2.1.2/src/apps/httpd/httpd.c|lwip-2.1.2/src/apps/httpd/fsdata.c|lwip-2.1.2/src/apps/httpd/makefsdata|lwip-2.1.2/src/apps/httpd/fs|lwip-2.1.2/test/unit|lwip-2.1.2/test/fuzz|lwip-2.1.2/doc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

@@ -15,7 +15,7 @@ This is a version of lwip running on Ubuntu
    Must be run under root user 
    
 ### 3.1 Echo server test 
-   Under the header file `./lwip-2.0.2/test/linux/lwip.h`, set `TEST_ID` to `ECHO_SERVER`
+   Under the header file `./lwip-2.1.2/test/linux/lwip.h`, set `TEST_ID` to `ECHO_SERVER`
 		
         #define TEST_ID 	ECHO_SERVER
 		
@@ -23,14 +23,14 @@ This is a version of lwip running on Ubuntu
 
 
 ### 3.2 TCP client test 
-   Under the header file `./lwip-2.0.2/test/linux/lwip.h`, set `TEST_ID` to `TCP_CLIENT`
+   Under the header file `./lwip-2.1.2/test/linux/lwip.h`, set `TEST_ID` to `TCP_CLIENT`
 	
         #define TEST_ID 	TCP_CLIENT
 	
    Then, re-compile the source code, and run the lwip-linux app. 
 		
    Notes:
-   - The remote server address is being hard code at "192.168.2.12", we can modify this address via macro TCP_REMOTE_SERVER_ADDR under ./lwip-2.0.2/test/linux/lwip.h.
+   - The remote server address is being hard code at "192.168.2.12", we can modify this address via macro TCP_REMOTE_SERVER_ADDR under ./lwip-2.1.2/test/linux/lwip.h.
    - Remote server port is 6677, it can be changed via macro TCP_REMOTE_SERVER_PORT. 
 		
 
